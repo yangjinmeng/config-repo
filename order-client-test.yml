@@ -1,0 +1,84 @@
+spring:
+  application:
+    name: ydhf-app-controller
+  security:
+    user:
+      name: yangsir
+      password: Q0AZ9PL8M
+  redis:
+    host: 127.0.0.1
+    password: kYfJkMe1e3b4a4g
+  servlet:  # 此版本的节点为servlet，不是http 注意一下
+    multipart:
+      enabled: true # 启用上传处理，默认是true
+      file-size-threshold: 1MB  # 当上传文件达到1MB的时候进行磁盘写入
+      max-request-size: 10MB  # 设置最大的请求文件的大小
+      max-file-size: 10MB  # 设置单个文件的最大长度
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${web.upload-path}
+web:
+  upload-path: /var/www/html/drone/resources/
+  httppath: http://192.168.1.168:10061/resources/
+  adminphone: 13466324654
+app:
+  version: 144
+server:
+  port: 10011
+  servlet:
+    context-path: /app
+eureka:
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@localhost:8991/eureka/
+  instance:
+    prefer-ip-address: true
+  register-with-eureka: true
+  fetch-registry: true
+serviceapp:
+  appServicePath: http://127.0.0.1:8941/
+  appServiceNamePath: http://ydhf-app-service/
+  apphead: serviceapp/
+
+#日志
+logging:
+  level:
+    org.springframework: error
+#Feign
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 5000
+#Feign+hystrix
+feign:
+  hystrix:
+    enabled: true
+#turbine
+#turbine:
+#  aggregator:
+#    clusterConfig: default
+#  clusterNameExpression: "'default'"
+#  instanceUrlSuffix: /hystrix.stream
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /
+  endpoint:
+    health:
+      show-details: ALWAYS
+    shutdown:  #关闭服务
+      enabled: true
+myYml:
+  ydhfServerUrl: http://127.0.0.1:8941/serviceapp
+  ydhfPCControllerUrl: http://127.0.0.1:10031/
+# 微信支付
+wx:
+  pay:
+    appid: wxa92d2bcb43fa2a0a
+    mch_id: 1584561651
+    key: JSHka6145alsdjfkDKJKSAJAKJAKJS0A
+    logo: ydhf-app-controller/src/main/resources/resources/logo.png
+    certificateprice: 200f
+    #每个证书申请价格
